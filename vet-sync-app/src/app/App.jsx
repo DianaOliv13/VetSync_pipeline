@@ -1,0 +1,84 @@
+import { useState } from 'react'
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom'
+import { Login } from '@/views/auth/Login.jsx'
+import { Register } from '@/views/auth/Register.jsx'
+import { PrivacyNotice } from '@/views/auth/PrivacyNotice.jsx'
+import { Header } from '@/components/header/Header.jsx'
+import { MobileMenu } from '@/components/header/MobileMenu.jsx'
+import { Home } from '@/views/Home.jsx'
+import { Pets } from '@/views/Pets.jsx'
+import { Appointments } from '@/views/Appointments.jsx'
+import { NewAppointment } from '../views/NewAppointment'
+import { Services } from '@/views/Services.jsx'
+import { NotFound } from '@/views/NotFound.jsx'
+import { AdminDashboard } from '@/views/AdminDashboard.jsx'
+import { AdminOverview } from '@/views/admin/AdminOverview.jsx'
+import { AdminServices } from '@/views/admin/AdminServices.jsx'
+import { AdminAppointments } from '@/views/admin/AdminAppointments.jsx'
+import { UserRoute } from '@/components/auth/UserRoute.jsx'
+import { ChatBot } from '@/components/ChatBot'
+
+function AppContent() {
+  const location = useLocation()
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen)
+  }
+
+  const authPaths = ['/login', '/register', '/privacy', '*']
+  const isAuthPath = authPaths.includes(location.pathname)
+  const isAdminPath = location.pathname.startsWith('/admin')
+  const hideHeader = isAuthPath || isAdminPath
+
+  const validPublicPaths = ['/', '/mascotas', '/citas', '/agendar', '/servicios', '/login', '/register', '/privacy']
+  const showChatBot = validPublicPaths.includes(location.pathname)
+
+  return (
+    <div className="min-h-screen bg-background flex flex-col">
+      {!hideHeader && (
+        <>
+          <Header toggleMenu={toggleMenu} />
+          <MobileMenu isOpen={isMenuOpen} onClose={toggleMenu} />
+        </>
+      )}
+      <main className={`grow ${isAuthPath ? 'flex items-center justify-center' : ''}`}>
+        <Routes>
+          {/* Rutas Públicas / Usuarios */}
+          <Route element={<UserRoute />}>
+            <Route path="/" element={<Home />} />
+            <Route path="/mascotas" element={<Pets />} />
+            <Route path="/citas" element={<Appointments />} />
+            <Route path="/agendar" element={<NewAppointment />} />
+            <Route path="/servicios" element={<Services />} />
+          </Route>
+
+          {/* Rutas de Administración */}
+          <Route element={<AdminDashboard />}>
+            <Route path="/admin" element={<AdminOverview />} />
+            <Route path="/admin/services" element={<AdminServices />} />
+            <Route path="/admin/appointments" element={<AdminAppointments />} />
+            {/* Aquí puedes agregar más rutas como /admin/users, etc. */}
+          </Route>
+
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/privacy" element={<PrivacyNotice />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </main>
+
+      {showChatBot && <ChatBot />}
+    </div>
+  )
+}
+
+function App() {
+  return (
+    <Router>
+      <AppContent />
+    </Router>
+  )
+}
+
+export default App

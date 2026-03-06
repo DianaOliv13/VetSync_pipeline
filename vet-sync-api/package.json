@@ -1,0 +1,47 @@
+{
+  "name": "vet-sync",
+  "version": "1.0.0",
+  "main": "app.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "node --watch app.js",
+    "start": "node app.js",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
+  },
+  "imports": {
+    "#root/*": "./*",
+    "#src/*": "./src/*",
+    "#controllers/*": "./src/controllers/*",
+    "#databases/*": "./src/database/*",
+    "#middlewares/*": "./src/middlewares/*",
+    "#models/*": "./src/models/*",
+    "#routes/*": "./src/routes/*",
+    "#schemas/*": "./src/schemas/*",
+    "#services/*": "./src/services/*",
+    "#utils/*": "./src/utils/*"
+  },
+  "keywords": [],
+  "author": "NexNova",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@google/generative-ai": "^0.24.1",
+    "@supabase/supabase-js": "^2.49.7",
+    "bcryptjs": "^2.4.3",
+    "cors": "2.8.5",
+    "dotenv": "16.5.0",
+    "express": "5.1.0",
+    "express-rate-limit": "^8.1.0",
+    "jsonwebtoken": "9.0.2",
+    "morgan": "1.10.0",
+    "multer": "2.0.1",
+    "node-cron": "^4.2.1",
+    "zod": "3.25.7"
+  },
+  "devDependencies": {
+    "eslint": "^9.27.0",
+    "jest": "^30.2.0"
+  }
+}
