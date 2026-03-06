@@ -1,8 +1,9 @@
 import { jest } from '@jest/globals'
 import { AuthController } from '../src/controllers/authController.js'
 import { userModel } from '../src/models/userModel.js'
-import bcrypt from 'bcrypt'
+import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
+import { adminModel } from '../src/models/adminModel.js'
 
 beforeEach(() => {
   jest.restoreAllMocks()
@@ -53,12 +54,13 @@ describe('AuthController', () => {
     }])
     await AuthController.register(req, res)
     expect(res.status).toHaveBeenCalledWith(409)
-    expect(res.json).toHaveBeenCalledWith({ message: 'Email already registered' })
+    expect(res.json).toHaveBeenCalledWith({ message: 'Email already registered as user' })
   })
 
   test('login: should return 404 if email not found', async () => {
     req.body = { email: 'notfound@mail.com', password: '123' }
     userModel.getAllUsers.mockResolvedValue([])
+    jest.spyOn(adminModel, 'getAdmins').mockResolvedValue([])
     await AuthController.login(req, res)
     expect(res.status).toHaveBeenCalledWith(404)
     expect(res.json).toHaveBeenCalledWith({ message: 'Email not found' })
@@ -89,6 +91,6 @@ describe('AuthController', () => {
     jwt.sign.mockReturnValueOnce('accessToken').mockReturnValueOnce('refreshToken')
     userModel.createRefreshToken.mockResolvedValue()
     await AuthController.login(req, res)
-    expect(res.json).toHaveBeenCalledWith({ accessToken: 'accessToken', refreshToken: 'refreshToken', expiresIn: '1h' })
+    expect(res.json).toHaveBeenCalledWith({ accessToken: 'accessToken', refreshToken: 'refreshToken', expiresIn: '1h', role: 'user' })
   })
 })

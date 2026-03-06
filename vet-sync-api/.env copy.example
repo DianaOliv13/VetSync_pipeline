@@ -1,0 +1,9 @@
+# Configuración del servidor
+PORT=3000
+
+# Configuración de Supabase
+SUPABASE_URL=https://yytfgmkbyutsvoqumytl.supabase.co
+SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl5dGZnbWtieXV0c3ZvcXVteXRsIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3MTM5MjY5NCwiZXhwIjoyMDg2OTY4Njk0fQ.6sZftx2vZgxyInO_MnuyjX2xmgzo44L1_uCVJt0dQ6Q
+
+# Configuración de API Key
+API_KEY=e07c1dffdfdd16e93e2fd8e1d0494495d90799a6b6191bbad21c944a5b315b43
